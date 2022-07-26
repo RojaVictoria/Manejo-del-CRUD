@@ -7,6 +7,11 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 
+def indexView(request):
+    Inm = Inmuebles.objects.all()
+    return render(request, 'index.html', {'inmuebles': Inm})
+
+
 def registerView(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -66,3 +71,82 @@ def profile(request):
 
     context = {'u_form': u_form}
     return render(request, 'registration/update_profile.html', context)
+
+
+@login_required
+def new_inmuebleView(request):
+    if request.method == 'POST':
+        u_form = InmuebleForm(request.POST)
+        if u_form.is_valid():
+            id_tipo_inmueble = u_form.cleaned_data['id_tipo_inmueble']
+            id_comuna = u_form.cleaned_data['id_comuna']
+            id_region = u_form.cleaned_data['id_region']
+            nombre_inmueble = u_form.cleaned_data['nombre_inmueble']
+            descripcion = u_form.cleaned_data['descripcion']
+            m2_construido = u_form.cleaned_data['m2_construido']
+            m2_terreno = u_form.cleaned_data['m2_terreno']
+            numero_estacionamientos = u_form.cleaned_data['numero_estacionamientos']
+            numero_banos = u_form.cleaned_data['numero_banos']
+            numero_hab = u_form.cleaned_data['numero_hab']
+            direccion = u_form.cleaned_data['direccion']
+            precio_mensual = u_form.cleaned_data['precio_mensual']
+            print(u_form.cleaned_data)
+            tipo_inmueble = TipoInmueble.objects.filter(id=int(id_tipo_inmueble))[0]
+            comuna = Comuna.objects.filter(id=int(id_comuna))[0]
+            reg = Region.objects.filter(id=int(id_region))[0]
+            current_user = request.user
+            user = User.objects.filter(id=current_user.id).first()
+            inm = Inmuebles(id_tipo_inmueble = tipo_inmueble,
+                            id_comuna = comuna,
+                            id_region = reg,
+                            nombre_inmueble = nombre_inmueble,
+                            descripcion = descripcion,
+                            m2_construido = m2_construido,
+                            m2_terreno = m2_terreno,
+                            numero_estacionamientos = numero_estacionamientos,
+                            numero_banos = numero_banos,
+                            numero_hab = numero_hab,
+                            direccion = direccion,
+                            precio_mensual = precio_mensual)
+            print(user)
+            inm.id_user = user
+            inm.save()
+            return HttpResponseRedirect('/dashboard/')
+    else:
+        u_form = InmuebleForm()
+
+    context = {'u_form': u_form}
+    return render(request, 'new_inmueble.html', context)
+
+
+@login_required
+def dashboardView(request):
+    username = request.user
+    current_user = request.user
+    Inm = Inmuebles.objects.filter(id_user_id=current_user.id)
+    return render(request, 'dashboard.html', {'inmuebles': Inm})
+
+
+@login_required
+def inmuebles_update(request):
+    inmueble_id = request.GET['id_inmueble']
+    if request.method == 'POST':
+        inmueble_id = request.GET['id_inmueble']
+        inmueble = Inmuebles.objects.filter(id=inmueble_id).first()
+        u_form = InmueblesUpdateForm(request.POST, instance=inmueble)
+        if u_form.is_valid():
+            u_form.save()
+            return HttpResponseRedirect('/dashboard/')
+    else:
+        inmueble = Inmuebles.objects.filter(id=inmueble_id).first()
+        u_form = InmueblesUpdateForm(instance=inmueble)
+    context = {'u_form': u_form}
+    return render(request, 'registration/update_profile.html', context)
+
+
+@login_required
+def inmuebles_delete(request):
+    inmueble_id = request.GET['id_inmueble']
+    record = Inmuebles.objects.get(id=inmueble_id)
+    record.delete()
+    return HttpResponseRedirect('/dashboard/')
