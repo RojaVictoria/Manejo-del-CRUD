@@ -121,7 +121,6 @@ def new_inmuebleView(request):
 
 @login_required
 def dashboardView(request):
-    username = request.user
     current_user = request.user
     Inm = Inmuebles.objects.filter(id_user_id=current_user.id)
     return render(request, 'dashboard.html', {'inmuebles': Inm})
@@ -141,7 +140,7 @@ def inmuebles_update(request):
         inmueble = Inmuebles.objects.filter(id=inmueble_id).first()
         u_form = InmueblesUpdateForm(instance=inmueble)
     context = {'u_form': u_form}
-    return render(request, 'registration/update_profile.html', context)
+    return render(request, 'update_inmueble.html', context)
 
 
 @login_required

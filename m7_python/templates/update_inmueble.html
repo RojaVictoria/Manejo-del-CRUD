@@ -1,11 +1,11 @@
 {% extends 'index.html' %}
 {% block content %}
     <div class="container my-md-4 my-3 text-center">
-        <h1>Inicia Sesión</h1>
+        <h1>Editar Inmueble</h1>
         <form method='Post' class="pt-2">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn btn-primary">Iniciar Sesión</button>
+            {{ u_form.as_p }}
+            <button class="btn btn-primary">Actualizar</button>
         </form>
     </div>
 {% endblock %}

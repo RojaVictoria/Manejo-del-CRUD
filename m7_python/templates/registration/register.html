@@ -1,14 +1,16 @@
 {% extends 'index.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h1>Crear nuevo usuario</h1>
-    <form method='POST'>
-        {% csrf_token %}
-        <fieldset class="form-group">
-            {{ form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success">Registrar</button>
-        </div>
-    </form>
+    <div class="container my-md-4 my-3 text-center">
+        <h1>Crear Nuevo Usuario</h1>
+        <form method='POST'>
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {{ form|crispy }}
+            </fieldset>
+            <fieldset class="form-group mt-3">
+                <button class="btn btn-primary">Registrarse</button>
+            </fieldset>
+        </form>
+    </div>
 {% endblock %}

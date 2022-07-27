@@ -37,7 +37,7 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class InmuebleForm(forms.Form):
-    tipos = ((1, "Casa"), (2, "Deparatmento"), (3, "Parcela"), (4, "Estacionamiento"), (5, "Otro"))
+    tipos = ((1, "Casa"), (2, "Departamento"), (3, "Parcela"), (4, "Estacionamiento"), (5, "Otro"))
     id_tipo_inmueble = forms.ChoiceField(choices=tipos)
     comunas = [(x.id, x.comuna) for x in list(Comuna.objects.filter())]
 

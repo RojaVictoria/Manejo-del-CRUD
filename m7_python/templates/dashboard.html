@@ -1,20 +1,33 @@
 {% extends 'index.html' %}
 {% block content %}
-    <h1>Bienvenido, {{ user.username }}</h1>
-    <h5>Usuario: {{ user.first_name }} {{ user.last_name }} {{ user.email }}</h5>
-    <a href="{% url 'update_profile' %}">Editar perfil de usuario</a>
-    <a href="{% url 'new_inmueble_url' %}">Nuevo Inmueble</a>
-    <h3>Lista de propiedades publicadas</h3>
-    {% for product in inmuebles %}
-        <tr>
-            <td>
-                <h5> {{ product.nombre_inmueble }} </h5>
-                <a href="/update_inmueble?id_inmueble={{ product.id }}">Editar</a>
-                <a href="/eliminar_inmueble?id_inmueble={{ product.id }}">Borrar</a>
-            </td>
-        </tr>
-    {% endfor %}
-    <div>
-        <a href="{% url 'logout' %}">Logout</a>
+    <div class="container my-md-4 my-3 text-center">
+        <div>
+            <h1>Bienvenid@, {{ user.username }}</h1>
+            <h5>Usuario: {{ user.first_name }} {{ user.last_name }}</h5>
+            <h5>Correo: {{ user.email }}</h5>
+            <div class="my-3">
+                <a class="btn btn-primary" href="{% url 'update_profile' %}">Editar Perfil de Usuario</a>
+                <a class="btn btn-primary" href="{% url 'new_inmueble_url' %}">Agregar Inmueble</a>
+                <a class="btn btn-primary" href="{% url 'logout' %}">Cerrar Sesión</a>
+            </div>
+        </div>
+        <div class="my-3">
+            <h2 class="border-color mt-4">Propiedades en Arriendo</h2>
+            <div class="py-4 mx-3">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for product in inmuebles %}
+                    <div class="col">
+                        <div class="card w-100" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.nombre_inmueble }}</h5>
+                                <a class="btn btn-primary" href="/update_inmueble?id_inmueble={{ product.id }}">Editar</a>
+                                <a class="btn btn-danger" href="/eliminar_inmueble?id_inmueble={{ product.id }}">Borrar</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

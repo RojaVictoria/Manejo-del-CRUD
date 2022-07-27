@@ -1,9 +1,11 @@
 {% extends 'index.html' %}
 {% block content %}
-    <h1>Agregar nuevo inmueble</h1>
-    <form method='Post'>
-        {% csrf_token %}
-        {{ u_form.as_p }}
-        <button>Registrar</button>
-    </form>
+    <div class="container my-md-4 my-3 text-center">
+        <h1>Agregar Nuevo Inmueble</h1>
+        <form method='Post' class="pt-2">
+            {% csrf_token %}
+            {{ u_form.as_p }}
+            <button class="btn btn-primary">Registrar</button>
+        </form>
+    </div>
 {% endblock %}
