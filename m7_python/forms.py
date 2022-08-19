@@ -31,6 +31,13 @@ class TipoForm(forms.Form):
 
 
 class UserUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(label='Nombre')
+    first_name.label = 'Nombre'
+    last_name = forms.CharField(label='Apellido')
+    last_name.label = 'Apellido'
+    email = forms.EmailField(label='Correo')
+    email.label = 'Correo'
+
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
